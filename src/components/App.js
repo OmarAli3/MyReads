@@ -1,4 +1,5 @@
 import React from "react";
+import { Route } from "react-router-dom";
 // import * as BooksAPI from './BooksAPI'
 import "../styles/App.css";
 import SearchPage from "./SearchPage";
@@ -54,19 +55,27 @@ class BooksApp extends React.Component {
     render() {
         return (
             <div className="app">
-                {this.state.showSearchPage ? (
-                    <SearchPage
-                        bookShelves={this.state.bookShelves}
-                        showSearchPage={this.state.showSearchPage}
-                        onBackHome={this.pageHandler}
-                    />
-                ) : (
-                    <HomePage
-                        bookShelves={this.state.bookShelves}
-                        showSearchPage={this.state.showSearchPage}
-                        onSearch={this.pageHandler}
-                    />
-                )}
+                <Route
+                    exact
+                    path="/"
+                    render={() => 
+                        <HomePage
+                            bookShelves={this.state.bookShelves}
+                            showSearchPage={this.state.showSearchPage}
+                            onSearch={this.pageHandler}
+                        />
+                    }
+                />
+                <Route
+                    path="/add"
+                    render={() => 
+                        <SearchPage
+                            bookShelves={this.state.bookShelves}
+                            showSearchPage={this.state.showSearchPage}
+                            onBackHome={this.pageHandler}
+                        />
+                    }
+                />
             </div>
         );
     }
