@@ -1,38 +1,42 @@
 import React from "react";
 
 const BookShelfChanger = (props) => {
-    const options = [
+    const shelves = [
         {
-            value: "Currently Reading",
+            name: "Currently Reading",
         },
         {
-            value: "Want to Read",
+            name: "Want to Read",
         },
         {
-            value: "Read",
+            name: "Read",
         },
         {
-            value: "None",
+            name: "None",
         },
     ];
+    const shelfId = {
+        "Currently Reading": "currentlyReading",
+        "Want to Read": "wantToRead",
+        Read: "read",
+        None: "none",
+    };
     return (
         <div className="book-shelf-changer">
-            <select>
+            <select
+                onChange={(event) =>
+                    props.onChangeShelf(shelfId[event.target.value])
+                }
+                value={props.selectedShelf}
+            >
                 <option value="move" disabled>
                     Move to...
                 </option>
-                {options.map((option, idx) => (
-                    <option
-                        key={idx}
-                        value={option.value}
-                        selected={props.selectedOption === option.value}
-                        className={
-                            props.selectedOption === option.value
-                                ? "selected"
-                                : ""
-                        }
-                    >
-                        {option.value}
+                {shelves.map((shelf, idx) => (
+                    <option key={idx} value={shelf.name}>
+                        {props.selectedShelf === shelf.name
+                            ? `✓ ${shelf.name}`
+                            : shelf.name}
                     </option>
                 ))}
             </select>

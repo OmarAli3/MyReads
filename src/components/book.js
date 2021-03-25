@@ -3,19 +3,29 @@ import BookCover from "./BookCover";
 import BookShelfChanger from "./BookShelfChanger";
 
 class Book extends Component {
-    state = {
-        bookShelf: this.props.bookShelf,
-    };
     render() {
-        const { bookImage, bookShelf, bookTitle, bookAuthor } = this.props;
+        const {
+            bookImage,
+            bookShelf,
+            bookTitle,
+            bookAuthors,
+            onUpdate,
+        } = this.props;
         return (
             <div className="book">
                 <div className="book-top">
                     <BookCover bookImage={bookImage} />
-                    <BookShelfChanger selectedOption={bookShelf} />
+                    <BookShelfChanger
+                        selectedShelf={bookShelf}
+                        onChangeShelf={(shelf) => onUpdate(shelf)}
+                    />
                 </div>
                 <div className="book-title">{bookTitle}</div>
-                <div className="book-authors">{bookAuthor}</div>
+                {bookAuthors.map((author, idx) => (
+                    <div key={idx} className="book-authors">
+                        {author}
+                    </div>
+                ))}
             </div>
         );
     }
