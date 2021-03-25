@@ -16,7 +16,7 @@ const BookShelf = (props) => {
                                 bookTitle={book.bookTitle}
                                 bookAuthors={book.bookAuthors}
                                 onUpdate={(newShelf) =>
-                                    onChangeShelf(book.bookId, newShelf)
+                                    onChangeShelf(book, newShelf)
                                 }
                             />
                         </li>

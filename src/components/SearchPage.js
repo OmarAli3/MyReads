@@ -38,14 +38,14 @@ class SearchPage extends Component {
                 console.log(e);
             });
     };
-    handleUpdate = (bookId, newShelf) => {
-        this.props.onChangeShelf(bookId, newShelf);
-        const changedBook = this.state.searchList.find(
-            (book) => book.bookId === bookId
+    handleUpdate = (changedBook, newShelf) => {
+        this.props.onChangeShelf(changedBook, newShelf);
+        const _changedBook = this.state.searchList.find(
+            (book) => book.bookId === changedBook.bookId
         );
-        changedBook.bookShelf = newShelf;
+        _changedBook.bookShelf = newShelf;
         const searchList = this.state.searchList.map((book) =>
-            book.bookTitle === changedBook.title ? changedBook : book
+            book.bookTitle === changedBook.title ? _changedBook : book
         );
         this.setState({ searchList });
     };
@@ -75,10 +75,7 @@ class SearchPage extends Component {
                                         bookAuthors={book.bookAuthors}
                                         bookShelf={book.bookShelf}
                                         onUpdate={(newShelf) =>
-                                            this.handleUpdate(
-                                                book.bookId,
-                                                newShelf
-                                            )
+                                            this.handleUpdate(book, newShelf)
                                         }
                                     />
                                 </li>

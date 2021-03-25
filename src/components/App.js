@@ -51,21 +51,26 @@ class BooksApp extends React.Component {
     putOnShelf = (books) => {
         return this.shelvesTemplate.map((shelf) => ({
             id: shelf.id,
-            bookShelfTitle:shelf.bookShelfTitle,
+            bookShelfTitle: shelf.bookShelfTitle,
             bookList: books.filter((book) => book.bookShelf === shelf.id),
         }));
     };
-    handleChangeShelf = (bookId, newShelf) => {
-        console.log(bookId, newShelf)
-        BooksAPI.update({ id: bookId }, newShelf)
+    handleChangeShelf = (changedBook, newShelf) => {
+        changedBook.bookShelf = newShelf;
+        BooksAPI.update({ id: changedBook.bookId }, newShelf)
             .then(() => {
-                const changedBook = this.state.books.find(
-                    (book) => book.bookId === bookId
+                let books = [...this.state.books];
+                const _changedBook = books.find(
+                    (book) => book.bookId === changedBook.bookId
                 );
-                changedBook.bookShelf = newShelf;
-                const books = this.state.books.map((book) =>
-                    book.bookTitle === changedBook.title ? changedBook : book
-                );
+                _changedBook
+                    ? (books = books.map((book) =>
+                          book.bookId === changedBook.bookId
+                              ? changedBook
+                              : book
+                      ))
+                    : books.push(changedBook);
+
                 const bookShelves = this.putOnShelf(books);
                 this.setState({ books, bookShelves });
             })
