@@ -25,7 +25,7 @@ const BookShelfChanger = (props) => {
         <div className="book-shelf-changer">
             <select
                 onChange={(event) =>
-                    props.onChangeShelf(shelfId[event.target.value])
+                    props.onChangeShelf(event.target.value)
                 }
                 value={props.selectedShelf}
             >
@@ -33,8 +33,8 @@ const BookShelfChanger = (props) => {
                     Move to...
                 </option>
                 {shelves.map((shelf, idx) => (
-                    <option key={idx} value={shelf.name}>
-                        {props.selectedShelf === shelf.name
+                    <option key={idx} value={shelfId[shelf.name]}>
+                        {props.selectedShelf === shelfId[shelf.name]
                             ? `✓ ${shelf.name}`
                             : shelf.name}
                     </option>

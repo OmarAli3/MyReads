@@ -2,7 +2,7 @@ import React from "react";
 import Book from "./Book";
 
 const BookShelf = (props) => {
-    const { bookList, bookShelfTitle, onChangeShelf } = props;
+    const { bookList, bookShelfId,bookShelfTitle, onChangeShelf } = props;
     return (
         <div className="bookshelf">
             <h2 className="bookshelf-title">{bookShelfTitle}</h2>
@@ -12,7 +12,7 @@ const BookShelf = (props) => {
                         <li key={idx}>
                             <Book
                                 bookImage={`url(${book.url})`}
-                                bookShelf={bookShelfTitle}
+                                bookShelf={bookShelfId}
                                 bookTitle={book.bookTitle}
                                 bookAuthors={book.bookAuthors}
                                 onUpdate={(newShelf) =>

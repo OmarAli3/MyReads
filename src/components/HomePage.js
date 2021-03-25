@@ -15,6 +15,7 @@ class HomePage extends Component {
                         {bookShelves.map((shelf, idx) => (
                             <BookShelf
                                 key={idx}
+                                bookShelfId={shelf.id}
                                 bookShelfTitle={shelf.bookShelfTitle}
                                 bookList={shelf.bookList}
                                 onChangeShelf={onChangeShelf}

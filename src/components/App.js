@@ -31,38 +31,50 @@ class BooksApp extends React.Component {
         };
     }
     componentDidMount() {
-        BooksAPI.getAll().then((books) => {
-            console.log(books);
-            books = books.map((book) => ({
-                bookId: book.id,
-                url: book.imageLinks.thumbnail,
-                bookShelf: book.shelf,
-                bookTitle: book.title,
-                bookAuthors: book.authors,
-            }));
-            const bookShelves = this.putOnShelf(books);
-            this.setState({ books, bookShelves });
-        });
+        BooksAPI.getAll()
+            .then((books) => {
+                console.log(books);
+                books = books.map((book) => ({
+                    bookId: book.id,
+                    url: book.imageLinks.thumbnail,
+                    bookShelf: book.shelf,
+                    bookTitle: book.title,
+                    bookAuthors: book.authors,
+                }));
+                const bookShelves = this.putOnShelf(books);
+                this.setState({ books, bookShelves });
+            })
+            .catch((e) => {
+                console.log(e);
+            });
     }
     putOnShelf = (books) => {
         return this.shelvesTemplate.map((shelf) => ({
-            bookShelfTitle: shelf.bookShelfTitle,
+            id: shelf.id,
+            bookShelfTitle:shelf.bookShelfTitle,
             bookList: books.filter((book) => book.bookShelf === shelf.id),
         }));
     };
     handleChangeShelf = (bookId, newShelf) => {
-        BooksAPI.update({ id: bookId }, newShelf).then(() => {
-            const changedBook = this.state.books.find(
-                (book) => book.bookId === bookId
-            );
-            changedBook.bookShelf = newShelf;
-            const books = this.state.books.map((book) =>
-                book.bookTitle === changedBook.title ? changedBook : book
-            );
-            const bookShelves = this.putOnShelf(books);
-            this.setState({ books, bookShelves });
-        });
+        console.log(bookId, newShelf)
+        BooksAPI.update({ id: bookId }, newShelf)
+            .then(() => {
+                const changedBook = this.state.books.find(
+                    (book) => book.bookId === bookId
+                );
+                changedBook.bookShelf = newShelf;
+                const books = this.state.books.map((book) =>
+                    book.bookTitle === changedBook.title ? changedBook : book
+                );
+                const bookShelves = this.putOnShelf(books);
+                this.setState({ books, bookShelves });
+            })
+            .catch((e) => {
+                console.log(e);
+            });
     };
+    getExistingBook = (id) =>
+        this.state.books.find((book) => book.bookId === id);
     render() {
         return (
             <div className="app">
@@ -76,7 +88,15 @@ class BooksApp extends React.Component {
                         />
                     )}
                 />
-                <Route path="/search" component={SearchPage} />
+                <Route
+                    path="/search"
+                    render={() => (
+                        <SearchPage
+                            onChangeShelf={this.handleChangeShelf}
+                            getExistingBook={this.getExistingBook}
+                        />
+                    )}
+                />
             </div>
         );
     }
