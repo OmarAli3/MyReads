@@ -14,6 +14,7 @@
  - React Router
 
 ### Running the App
+  See it live [Here](https://omarali3.github.io/MyReads/) or follow the following steps to run it locally.
   * Install `npm`
   * Install dependencies by this command `npm install`
   * Start the app by `npm start`
